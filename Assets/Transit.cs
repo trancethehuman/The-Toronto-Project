@@ -5,8 +5,8 @@ using UnityEngine;
 public class Transit : MonoBehaviour
 {
     [field: SerializeField] public List<GameObject> Checkpoints { get; private set; }
-    [field: SerializeField] public float CheckpointWaitTime { get; private set; }
-    [field: SerializeField] public float CurrentCheckpointWaitTime { get; private set; }
+    [field: SerializeField] public float BoardingTimeLimit { get; private set; }
+    [field: SerializeField] public float BoardingTimeLeft { get; private set; }
     [field: SerializeField] public float Speed { get; private set; }
     [field: SerializeField] public GameObject Vehicle { get; private set; }
     [field: SerializeField] public bool Boarding { get; private set; }
@@ -29,9 +29,9 @@ public class Transit : MonoBehaviour
             Vehicle.transform.position = CurrentCheckpoint.transform.position;
         }
 
-        if (CurrentCheckpointWaitTime == 0)
+        if (BoardingTimeLeft == 0)
         {
-            CurrentCheckpointWaitTime = CheckpointWaitTime;
+            BoardingTimeLeft = BoardingTimeLimit;
         }
     }
 
@@ -64,17 +64,17 @@ public class Transit : MonoBehaviour
 
         {
             Vehicle.transform.position = CurrentCheckpoint.transform.position;
-            if (CurrentCheckpointWaitTime > 0)
+            if (BoardingTimeLeft > 0)
             {
-                CurrentCheckpointWaitTime -= Time.deltaTime;
-                Debug.Log("Currently at a checkpoint for: " + CurrentCheckpointWaitTime);
+                BoardingTimeLeft -= Time.deltaTime;
+                Debug.Log("Currently at a checkpoint for: " + BoardingTimeLeft);
             }
 
-            if (CurrentCheckpointWaitTime < 0)
+            if (BoardingTimeLeft < 0)
             {
                 NextCheckpoint = GetNextCheckpoint(CurrentCheckpoint, Checkpoints);
                 DistanceFromNextCheckpoint = GetDistanceFromCheckpoint(NextCheckpoint, Vehicle);
-                CurrentCheckpointWaitTime = CheckpointWaitTime;
+                BoardingTimeLeft = BoardingTimeLimit;
                 Boarding = false;
             }
 
