@@ -42,10 +42,7 @@ public class Transit : MonoBehaviour
 
     private float GetDistanceFromCheckpoint(GameObject checkpoint, GameObject Vehicle)
     {
-        float distance = Vector2.Distance(Vehicle.transform.position, checkpoint.transform.position);
-        BroadcastAllAboard(checkpoint);
-        return distance;
-
+        return Vector2.Distance(Vehicle.transform.position, checkpoint.transform.position);
     }
 
     private GameObject GetNextCheckpoint(GameObject current, List<GameObject> checkpoints)
@@ -67,7 +64,6 @@ public class Transit : MonoBehaviour
             if (BoardingTimeLeft > 0)
             {
                 BoardingTimeLeft -= Time.deltaTime;
-                Debug.Log("Currently at a checkpoint for: " + BoardingTimeLeft);
             }
 
             if (BoardingTimeLeft < 0)
@@ -84,7 +80,6 @@ public class Transit : MonoBehaviour
             if (DistanceFromNextCheckpoint > 0)
             {
                 DistanceFromNextCheckpoint -= Time.deltaTime;
-                Debug.Log("Remaining distance from next checkpoint: " + DistanceFromNextCheckpoint);
             }
 
             if (DistanceFromNextCheckpoint < 0)
