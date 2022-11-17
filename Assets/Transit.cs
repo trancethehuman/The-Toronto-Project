@@ -22,6 +22,16 @@ public class Transit : MonoBehaviour
 
     void Awake()
     {
+        InitializeTransit();
+    }
+
+    void Update()
+    {
+        ActivateTransit();
+    }
+
+    private void InitializeTransit()
+    {
         if (CurrentCheckpoint == null)
         {
             CurrentCheckpoint = Checkpoints[0];
@@ -35,9 +45,51 @@ public class Transit : MonoBehaviour
         }
     }
 
-    void Update()
+    private void ActivateTransit()
     {
-        ActivateTransit();
+        if (Boarding)
+        {
+            SetWaiting();
+        }
+
+        if (!Boarding)
+        {
+            SetTraveling();
+        }
+    }
+
+    private void SetTraveling()
+    {
+        {
+            if (DistanceFromNextCheckpoint > 0)
+            {
+                DistanceFromNextCheckpoint -= Time.deltaTime;
+            }
+
+            if (DistanceFromNextCheckpoint < 0)
+            {
+                CurrentCheckpoint = NextCheckpoint;
+                Boarding = true;
+            }
+        }
+    }
+
+    private void SetWaiting()
+    {
+        MoveVehicle(Vehicle, CurrentCheckpoint);
+
+        if (BoardingTimeLeft > 0)
+        {
+            BoardingTimeLeft -= Time.deltaTime;
+        }
+
+        if (BoardingTimeLeft < 0)
+        {
+            NextCheckpoint = GetNextCheckpoint(CurrentCheckpoint, Checkpoints);
+            DistanceFromNextCheckpoint = GetDistanceFromCheckpoint(NextCheckpoint, Vehicle);
+            BoardingTimeLeft = BoardingTimeLimit;
+            Boarding = false;
+        }
     }
 
     private float GetDistanceFromCheckpoint(GameObject checkpoint, GameObject Vehicle)
@@ -55,40 +107,9 @@ public class Transit : MonoBehaviour
         return checkpoints[checkpoints.IndexOf(current) + 1];
     }
 
-    private void ActivateTransit()
+    private void MoveVehicle(GameObject vehicle, GameObject destination)
     {
-        if (Boarding)
-
-        {
-            Vehicle.transform.position = CurrentCheckpoint.transform.position;
-            if (BoardingTimeLeft > 0)
-            {
-                BoardingTimeLeft -= Time.deltaTime;
-            }
-
-            if (BoardingTimeLeft < 0)
-            {
-                NextCheckpoint = GetNextCheckpoint(CurrentCheckpoint, Checkpoints);
-                DistanceFromNextCheckpoint = GetDistanceFromCheckpoint(NextCheckpoint, Vehicle);
-                BoardingTimeLeft = BoardingTimeLimit;
-                Boarding = false;
-            }
-
-        }
-        if (!Boarding)
-        {
-            if (DistanceFromNextCheckpoint > 0)
-            {
-                DistanceFromNextCheckpoint -= Time.deltaTime;
-            }
-
-            if (DistanceFromNextCheckpoint < 0)
-            {
-                CurrentCheckpoint = NextCheckpoint;
-                Boarding = true;
-            }
-
-        }
+        vehicle.transform.position = destination.transform.position;
     }
 
     private GameObject BroadcastAllAboard(GameObject checkpoint)
