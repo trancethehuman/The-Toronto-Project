@@ -49,6 +49,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <Checkpoints>k__BackingField: []
   <Speed>k__BackingField: 0
+  <Vehicle>k__BackingField: {fileID: 1445460914643912649}
 --- !u!1 &7989686130653128266
 GameObject:
   m_ObjectHideFlags: 0
@@ -203,6 +204,11 @@ PrefabInstance:
     m_RemovedComponents: []
     m_AddedGameObjects: []
   m_SourcePrefab: {fileID: 100100000, guid: 6a53c43d4e1c19a4cae3a5e0546f76a7, type: 3}
+--- !u!1 &1445460914643912649 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7532146385641865595, guid: 6a53c43d4e1c19a4cae3a5e0546f76a7, type: 3}
+  m_PrefabInstance: {fileID: 8973633570772010674}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &8398295691175236120 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 577724501019808938, guid: 6a53c43d4e1c19a4cae3a5e0546f76a7, type: 3}
