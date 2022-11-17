@@ -36,7 +36,7 @@ public class Transit : MonoBehaviour
         {
             CurrentCheckpoint = Checkpoints[0];
             Boarding = true;
-            Vehicle.transform.position = CurrentCheckpoint.transform.position;
+            MoveVehicle(Vehicle, CurrentCheckpoint);
         }
 
         if (BoardingTimeLeft == 0)
@@ -47,14 +47,17 @@ public class Transit : MonoBehaviour
 
     private void ActivateTransit()
     {
-        if (Boarding)
+        if (CanStart)
         {
-            SetWaiting();
-        }
+            if (Boarding)
+            {
+                SetWaiting();
+            }
 
-        if (!Boarding)
-        {
-            SetTraveling();
+            if (!Boarding)
+            {
+                SetTraveling();
+            }
         }
     }
 
@@ -76,7 +79,7 @@ public class Transit : MonoBehaviour
 
     private void SetWaiting()
     {
-        MoveVehicle(Vehicle, CurrentCheckpoint);
+        MoveVehicle(Vehicle, CurrentCheckpoint); // To-do: Animate and remove from waiting method
 
         if (BoardingTimeLeft > 0)
         {
